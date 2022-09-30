@@ -8,5 +8,5 @@
 import Foundation
 
 struct Post {
-    var title: String
+    var text: String
 }
