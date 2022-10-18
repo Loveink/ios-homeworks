@@ -8,5 +8,9 @@
 import Foundation
 
 struct Post {
-    var text: String
+    let author: String
+    let description: String
+    let image: String
+    var likes: Int
+    var views: Int
 }
