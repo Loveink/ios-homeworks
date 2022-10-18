@@ -16,6 +16,7 @@
 		576BDF8328E595A6005D6505 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576BDF8228E595A6005D6505 /* FeedViewController.swift */; };
 		576BDF8528E595C6005D6505 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576BDF8428E595C6005D6505 /* ProfileViewController.swift */; };
 		576BDF8728E5962D005D6505 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576BDF8628E5962D005D6505 /* PostViewController.swift */; };
+		57C0B1E428F0B3FF007D6D6B /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C0B1E328F0B3FF007D6D6B /* LogInViewController.swift */; };
 		57EB830E28E72ACE00CFE482 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB830D28E72ACE00CFE482 /* ProfileHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		576BDF8228E595A6005D6505 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		576BDF8428E595C6005D6505 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = Navigation/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		576BDF8628E5962D005D6505 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		57C0B1E328F0B3FF007D6D6B /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		57EB830D28E72ACE00CFE482 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				576BDF8428E595C6005D6505 /* ProfileViewController.swift */,
+				57C0B1E328F0B3FF007D6D6B /* LogInViewController.swift */,
 				57EB830D28E72ACE00CFE482 /* ProfileHeaderView.swift */,
 			);
 			path = Profile;
@@ -159,6 +162,7 @@
 			files = (
 				574E51B628E5B6FC00F4524B /* Structs.swift in Sources */,
 				576BDF8328E595A6005D6505 /* FeedViewController.swift in Sources */,
+				57C0B1E428F0B3FF007D6D6B /* LogInViewController.swift in Sources */,
 				576BDF8528E595C6005D6505 /* ProfileViewController.swift in Sources */,
 				574E51B828E6E10D00F4524B /* InfoViewController.swift in Sources */,
 				571CB9D128E246220028FCE2 /* AppDelegate.swift in Sources */,
