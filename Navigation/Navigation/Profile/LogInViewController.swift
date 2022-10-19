@@ -7,11 +7,10 @@
 
 import UIKit
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, UIScrollViewDelegate {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -95,9 +94,11 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        self.subviews()
-        self.setupConstraints()
+        subviews()
+        setupConstraints()
         self.navigationController?.navigationBar.isHidden = true
+        scrollView.delegate = self
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,45 +127,35 @@ class LogInViewController: UIViewController {
         self.loginPasswordStackView.addArrangedSubview(self.passwordTextField)
     }
     
-    private func setupConstraints() {
-        
-        let topConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let leadingConstraint = self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let trailingConstraint = self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let bottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        
-        let contentViewTopConstraint = self.contentView.topAnchor.constraint(equalTo: self.scrollView.topAnchor)
-        let contentViewBottomConstraint = self.contentView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
-        let contentViewCenterXConstraint = self.contentView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
-        let contentViewWidthConstraint = self.contentView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
-        let contentViewHeightConstraint = self.contentView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor)
-        
-        let topLogoViewConstraint = self.logoView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 120)
-        let centerXLogoViewConstraint = self.logoView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
-        let widthLogoViewConstraint = self.logoView.widthAnchor.constraint(equalToConstant: 100)
-        let heightLogoViewConstraint = self.logoView.heightAnchor.constraint(equalToConstant: 100)
-        
-        let topLoginPasswordStackViewConstraint = self.loginPasswordStackView.topAnchor.constraint(equalTo: self.logoView.bottomAnchor, constant: 120)
-        let leftLoginPasswordStackViewConstraint = self.loginPasswordStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
-        let rightLoginPasswordStackViewConstraint = self.loginPasswordStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
-        let heightLoginPasswordStackViewConstraint = self.loginPasswordStackView.heightAnchor.constraint(equalToConstant: 100)
-        
-        let topLogInButtonConstraint = self.logInButton.topAnchor.constraint(equalTo: self.loginPasswordStackView.bottomAnchor, constant: 16)
-        let leadingLogInButtonConstraint = self.logInButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
-        let trailingLogInButtonConstraint = self.logInButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
-        let heightLogInButtonConstraint = self.logInButton.heightAnchor.constraint(equalToConstant: 50)
-        
+    func setupConstraints() {
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 150, right: 0)
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint,
-            contentViewTopConstraint, contentViewBottomConstraint,
-            contentViewWidthConstraint, contentViewHeightConstraint,
-            contentViewCenterXConstraint, topLogoViewConstraint,
-            centerXLogoViewConstraint, widthLogoViewConstraint,
-            heightLogoViewConstraint, topLoginPasswordStackViewConstraint,
-            leftLoginPasswordStackViewConstraint, rightLoginPasswordStackViewConstraint,
-            heightLoginPasswordStackViewConstraint, topLogInButtonConstraint,
-            leadingLogInButtonConstraint, trailingLogInButtonConstraint,
-            heightLogInButtonConstraint
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            contentView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
+            
+            logoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
+            logoView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logoView.widthAnchor.constraint(equalToConstant: 100),
+            logoView.heightAnchor.constraint(equalToConstant: 100),
+            
+            loginPasswordStackView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 120),
+            loginPasswordStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            loginPasswordStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            loginPasswordStackView.heightAnchor.constraint(equalToConstant: 100),
+            
+            logInButton.topAnchor.constraint(equalTo: loginPasswordStackView.bottomAnchor, constant: 16),
+            logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            logInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     

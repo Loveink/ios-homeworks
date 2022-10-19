@@ -8,7 +8,7 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    var postOne = Post(text: "POST ONE")
+    var postOne = "POST"
     private lazy var verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
