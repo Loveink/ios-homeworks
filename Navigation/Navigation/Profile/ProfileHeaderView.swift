@@ -72,7 +72,7 @@ class ProfileHeaderView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
@@ -98,12 +98,14 @@ class ProfileHeaderView: UIView {
             fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
             fullNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 182),
             fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            
+         
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
-            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            setStatusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16),
             
+            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 10),
             statusTextField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -10),
             statusTextField.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
             statusTextField.trailingAnchor.constraint(equalTo: statusLabel.trailingAnchor),
