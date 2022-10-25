@@ -14,3 +14,10 @@ struct Post {
     var likes: Int
     var views: Int
 }
+
+struct PhotosViewModel {
+    var image: String = ""
+    init(image: String) {
+        self.image = image
+    }
+}

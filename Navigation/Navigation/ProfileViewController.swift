@@ -22,14 +22,15 @@ class ProfileViewController: UIViewController {
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostCell")
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosTableViewCell")
         tableView.backgroundColor = .white
         tableView.layer.borderColor = UIColor.gray.cgColor
         tableView.layer.borderWidth = 0.5
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
-    private var arrayOfposts: [Post] = []
+    
+    var arrayOfposts: [Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,15 +39,16 @@ class ProfileViewController: UIViewController {
         self.addPosts()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
     private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.title = "Feed"
         
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.backgroundColor = UIColor.black
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        navBarAppearance.backgroundColor = UIColor.systemGray6
         navBarAppearance.shadowImage = nil
         navBarAppearance.shadowColor = nil
         self.navigationController?.navigationBar.standardAppearance = navBarAppearance
@@ -57,10 +59,10 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemGray6
         view.addSubview(self.tableView)
         NSLayoutConstraint.activate([
-       tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-       tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-       tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-       tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -91,27 +93,38 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        arrayOfposts.count
+        arrayOfposts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else { let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosTableViewCell", for: indexPath)
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else { let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                return cell
+            }
+            let post = self.arrayOfposts[indexPath.row - 1]
+            let viewModel = PostTableViewCell.ViewModel(author: post.author,
+                                                        description: post.description,
+                                                        image: UIImage(named: post.image),
+                                                        likes: post.likes,
+                                                        views: post.views)
+            cell.setup(with: viewModel)
             return cell
         }
-        let post = self.arrayOfposts[indexPath.row]
-        let viewModel = PostTableViewCell.ViewModel(author: post.author,
-                                                    description: post.description,
-                                                    image: UIImage(named: post.image),
-                                                    likes: post.likes,
-                                                    views: post.views)
-        cell.setup(with: viewModel)
-        return cell
     }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView =  profileHeaderView
-        headerView.backgroundColor = .systemGray6
-        headerView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+    
+    func tableView (_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = profileHeaderView
+        headerView.backgroundColor = .lightGray
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            self.navigationController?.pushViewController(PhotosViewController(), animated: true)
+        }
     }
 }
 
