@@ -72,7 +72,7 @@ class ProfileHeaderView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
@@ -88,7 +88,6 @@ class ProfileHeaderView: UIView {
         addSubview(statusLabel)
         addSubview(setStatusButton)
         addSubview(statusTextField)
-        
         NSLayoutConstraint.activate([
             avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -98,7 +97,7 @@ class ProfileHeaderView: UIView {
             fullNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
             fullNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 182),
             fullNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-         
+            
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
             setStatusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
@@ -138,7 +137,6 @@ class ProfileHeaderView: UIView {
         statusLabel.text = statusText
     }
 }
-
 // код с stackoverflow
 extension UIView {
     func shake() {
