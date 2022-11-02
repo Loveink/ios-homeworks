@@ -5,7 +5,7 @@
 //  Created by Александра Савчук on 29.09.2022.
 //
 
-import Foundation
+import UIKit
 
 struct Post {
     let author: String
@@ -21,3 +21,12 @@ struct PhotosViewModel {
         self.image = image
     }
 }
+
+struct ViewModel {
+    var author: String
+    var description: String
+    var image: UIImage?
+    var likes: Int
+    var views: Int
+}
+

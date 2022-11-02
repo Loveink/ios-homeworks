@@ -8,15 +8,7 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-    
-    struct ViewModel {
-        var author: String
-        var description: String
-        var image: UIImage?
-        var likes: Int
-        var views: Int
-    }
-    
+     
     private lazy var authorText: UITextView = {
         let authorText = UITextView()
         authorText.textColor = .black

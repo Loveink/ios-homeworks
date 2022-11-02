@@ -195,7 +195,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
             let post = self.arrayOfposts[indexPath.row - 1]
-            let viewModel = PostTableViewCell.ViewModel(author: post.author,
+            let viewModel = ViewModel(author: post.author,
                                                         description: post.description,
                                                         image: UIImage(named: post.image),
                                                         likes: post.likes,
