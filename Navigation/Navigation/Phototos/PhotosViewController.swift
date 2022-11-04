@@ -33,36 +33,12 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
 
-    private var arrayOfPhotos : [PhotosViewModel] = [
-        PhotosViewModel(image: "1"),
-        PhotosViewModel(image: "2"),
-        PhotosViewModel(image: "3"),
-        PhotosViewModel(image: "4"),
-        PhotosViewModel(image: "5"),
-        PhotosViewModel(image: "6"),
-        PhotosViewModel(image: "7"),
-        PhotosViewModel(image: "8"),
-        PhotosViewModel(image: "9"),
-        PhotosViewModel(image: "10"),
-        PhotosViewModel(image: "11"),
-        PhotosViewModel(image: "12"),
-        PhotosViewModel(image: "13"),
-        PhotosViewModel(image: "14"),
-        PhotosViewModel(image: "15"),
-        PhotosViewModel(image: "16"),
-        PhotosViewModel(image: "17"),
-        PhotosViewModel(image: "18"),
-        PhotosViewModel(image: "19"),
-        PhotosViewModel(image: "20"),
-    ]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
         self.navigationItem.title = "Photo Gallery"
         self.navigationItem.backButtonTitle = "Back"
         self.navigationController?.navigationBar.isHidden = false
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +66,7 @@ class PhotosViewController: UIViewController {
 
 extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrayOfPhotos.count
+        return arrayOfPhotos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,7 +77,7 @@ extension PhotosViewController: UICollectionViewDataSource, UICollectionViewDele
         }
         cell.backgroundColor = .systemGray6
         let photos = arrayOfPhotos[indexPath.row]
-        cell.photoImagesToGallery.image = UIImage(named: photos.image)
+        cell.photoImagesToGallery.image = UIImage(named: photos.nameOfPhoto.rawValue)
         cell.photoImagesToGallery.contentMode = .scaleAspectFill
         return cell
     }

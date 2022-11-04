@@ -61,7 +61,7 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var arrayOfposts: [Post] = []
+//    private var arrayOfposts: [Post] = []
     private let tapGestureRecognizer = UITapGestureRecognizer()
     
     override func viewDidLoad() {
@@ -121,29 +121,6 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    private func addPosts() {
-        self.arrayOfposts.append(.init(author: "Kitty One",
-                                       description: "Замуууурчательный день",
-                                       image: "kitty1",
-                                       likes: 11,
-                                       views: 400))
-        self.arrayOfposts.append(.init(author: "Kitty Two",
-                                       description: "Без кота и жизнь не та!",
-                                       image: "kitty2",
-                                       likes: 35,
-                                       views: 200))
-        self.arrayOfposts.append(.init(author: "Kitty Three",
-                                       description: "Сплю когда захочу =)",
-                                       image: "kitty3",
-                                       likes: 87,
-                                       views: 699))
-        self.arrayOfposts.append(.init(author: "The best little kitty ever... blablablabla",
-                                       description: "Быть котиком - классно!",
-                                       image: "kitty4",
-                                       likes: 37,
-                                       views: 4000))
-    }
-    
     private func setupGesture() {
         tapGestureRecognizer.addTarget(self, action: #selector(handleTapGesture(_ :)))
         profileHeaderView.avatarImageView.addGestureRecognizer(tapGestureRecognizer)
@@ -194,12 +171,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else { let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 return cell
             }
-            let post = self.arrayOfposts[indexPath.row - 1]
-            let viewModel = ViewModel(author: post.author,
-                                                        description: post.description,
-                                                        image: UIImage(named: post.image),
-                                                        likes: post.likes,
-                                                        views: post.views)
+            let post = arrayOfposts[indexPath.row - 1]
+            let viewModel = Post(author: post.author,
+                                 description: post.description,
+                                 image: post.image,
+                                 likes: post.likes,
+                                 views: post.views)
             cell.setup(with: viewModel)
             return cell
         }
@@ -215,5 +192,31 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             self.navigationController?.pushViewController(PhotosViewController(), animated: true)
         }
+    }
+}
+
+extension ProfileViewController {
+    
+    private func addPosts() {
+        arrayOfposts.append(.init(author: "Kitty One",
+                                  description: "Замуууурчательный день",
+                                  image: "kitty1",
+                                  likes: 11,
+                                  views: 400))
+        arrayOfposts.append(.init(author: "Kitty Two",
+                                  description: "Без кота и жизнь не та!",
+                                  image: "kitty2",
+                                  likes: 35,
+                                  views: 200))
+        arrayOfposts.append(.init(author: "Kitty Three",
+                                  description: "Сплю когда захочу =)",
+                                  image: "kitty3",
+                                  likes: 87,
+                                  views: 699))
+        arrayOfposts.append(.init(author: "The best little kitty ever... blablablabla",
+                                  description: "Быть котиком - классно!",
+                                  image: "kitty4",
+                                  likes: 37,
+                                  views: 4000))
     }
 }

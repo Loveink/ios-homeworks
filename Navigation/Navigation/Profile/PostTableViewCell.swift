@@ -78,10 +78,10 @@ class PostTableViewCell: UITableViewCell {
         postImage.image = nil
     }
     
-    func setup(with viewModel: ViewModel) {
+    func setup(with viewModel: Post) {
         authorText.text = viewModel.author
         descriptionText.text = viewModel.description
-        postImage.image = viewModel.image
+        postImage.image = UIImage(named: viewModel.image)
         likesLabel.text = "Likes: \(viewModel.likes)"
         viewLabel.text = "Views: \(viewModel.views)"
     }
