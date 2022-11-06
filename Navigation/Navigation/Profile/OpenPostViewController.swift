@@ -118,6 +118,7 @@ class OpenPostViewController: UIViewController {
         self.navigationItem.title = "Photo Gallery"
         self.navigationItem.backButtonTitle = "Back"
         self.navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = .white
     }
    
     private func setupView() {

@@ -70,6 +70,7 @@ class ProfileViewController: UIViewController, TapLikedDelegate {
         self.setupViewTableView()
         self.addPosts()
         setupGesture()
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
