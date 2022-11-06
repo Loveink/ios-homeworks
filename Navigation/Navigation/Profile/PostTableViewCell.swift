@@ -8,8 +8,9 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-     
-    private lazy var authorText: UITextView = {
+    
+    var likedDelegate: TapLikedDelegate?
+    lazy var authorText: UITextView = {
         let authorText = UITextView()
         authorText.textColor = .black
         authorText.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -19,7 +20,7 @@ class PostTableViewCell: UITableViewCell {
         return authorText
     }()
     
-    private lazy var descriptionText: UITextView = {
+    lazy var descriptionText: UITextView = {
         let descriptionText = UITextView()
         descriptionText.textColor = .systemGray
         descriptionText.font = UIFont.systemFont(ofSize: 14, weight: .regular)
@@ -28,7 +29,7 @@ class PostTableViewCell: UITableViewCell {
         return descriptionText
     }()
     
-    private lazy var postImage: UIImageView = {
+    lazy var postImage: UIImageView = {
         let postImage = UIImageView()
         postImage.contentMode = .scaleAspectFit
         postImage.backgroundColor = .black
@@ -44,15 +45,18 @@ class PostTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var likesLabel: UILabel = {
+    lazy var likesLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapLiked))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private lazy var viewLabel: UILabel = {
+    lazy var viewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.textColor = .black
@@ -76,14 +80,16 @@ class PostTableViewCell: UITableViewCell {
         authorText.text = nil
         descriptionText.text = nil
         postImage.image = nil
+        likesLabel.text = nil
+        viewLabel.text = nil
     }
     
     func setup(with viewModel: Post) {
         authorText.text = viewModel.author
         descriptionText.text = viewModel.description
         postImage.image = UIImage(named: viewModel.image)
-        likesLabel.text = "Likes: \(viewModel.likes)"
-        viewLabel.text = "Views: \(viewModel.views)"
+        likesLabel.text = "Likes: " + String(viewModel.likes)
+        viewLabel.text = "Views: " + String(viewModel.views)
     }
     
     private func setupView() {
@@ -114,5 +120,8 @@ class PostTableViewCell: UITableViewCell {
             stackViewHorizontal.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             stackViewHorizontal.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+    @objc func tapLiked() {
+        likedDelegate?.tapLikedLabel()
     }
 }

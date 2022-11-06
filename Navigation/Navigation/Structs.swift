@@ -12,6 +12,7 @@ struct Post {
     let image: String
     var likes: Int
     var views: Int
+    let id: String?
 }
 var arrayOfposts: [Post] = []
 
@@ -59,3 +60,6 @@ let arrayOfPhotos : [CustomPhotoView] = [
     CustomPhotoView(nameOfPhoto: .cat19),
     CustomPhotoView(nameOfPhoto: .cat20),
 ]
+protocol TapLikedDelegate: AnyObject {
+    func tapLikedLabel()
+}
