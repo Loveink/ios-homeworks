@@ -74,6 +74,7 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
+    
     private lazy var logInButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
@@ -86,10 +87,88 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         }
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(self.buttonClicked), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.showProfileVC), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private lazy var errorLabel: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.isHidden = true
+        errorLabel.text = ""
+        errorLabel.font = .systemFont(ofSize: 11, weight: .bold)
+        errorLabel.textColor = .systemRed
+        errorLabel.textAlignment = .center
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        return errorLabel
+    }()
+    
+    @objc func showProfileVC(){
+        if checkText() {
+            let profileVC = ProfileViewController()
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    func checkText() -> Bool {
+        if loginTextField.text == "" {
+            loginTextField.backgroundColor = .systemRed
+            return false
+        } else {
+            loginTextField.backgroundColor = .none
+        }
+        if passwordTextField.text == "" {
+            passwordTextField.backgroundColor = .systemRed
+            return false
+        } else {
+            passwordTextField.backgroundColor = .none
+        }
+        if loginTextField.text!.count < 5 {
+            errorLabel.text = "Логин содержит менее 5 символов"
+            errorLabel.isHidden = false
+            loginTextField.shake()
+            return false
+        } else {
+            errorLabel.isHidden = true
+        }
+        if passwordTextField.text!.count < 5 {
+            errorLabel.text = "Пароль содержит менее 5 символов"
+            errorLabel.isHidden = false
+            passwordTextField.shake()
+            return false
+        } else {
+            errorLabel.isHidden = true
+        }
+        return checkLoginAndPassword() ? true : false
+    }
+    
+    func checkLoginAndPassword() -> Bool {
+        if let email = loginTextField.text {
+            if isValidEmail(email) {
+                if loginTextField.text == "login@mail.ru" && passwordTextField.text == "12345" {
+                    return true
+                } else {
+                    let ac = UIAlertController(title: "Ошибка!", message: "Логин по умолчанию login@mail.ru и пароль 12345", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    present(ac, animated: true, completion: nil)
+                    return false
+                }
+            }
+            
+        } else {
+        }
+        let ac = UIAlertController(title: "Ошибка!", message: "Email не прошел валидацию", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(ac, animated: true, completion: nil)
+        return false
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +177,6 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         setupConstraints()
         self.navigationController?.navigationBar.isHidden = true
         scrollView.delegate = self
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,13 +196,14 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         
     }
     private func subviews() {
-        self.view.addSubview(self.scrollView)
-        self.scrollView.addSubview(self.contentView)
-        self.contentView.addSubview(self.logInButton)
-        self.contentView.addSubview(self.logoView)
-        self.contentView.addSubview(self.loginPasswordStackView)
-        self.loginPasswordStackView.addArrangedSubview(self.loginTextField)
-        self.loginPasswordStackView.addArrangedSubview(self.passwordTextField)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(logInButton)
+        contentView.addSubview(logoView)
+        contentView.addSubview(loginPasswordStackView)
+        loginPasswordStackView.addArrangedSubview(loginTextField)
+        loginPasswordStackView.addArrangedSubview(passwordTextField)
+        contentView.addSubview(errorLabel)
     }
     
     func setupConstraints() {
@@ -155,7 +234,11 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
             logInButton.topAnchor.constraint(equalTo: loginPasswordStackView.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            logInButton.heightAnchor.constraint(equalToConstant: 50)
+            logInButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            errorLabel.bottomAnchor.constraint(equalTo: loginPasswordStackView.topAnchor, constant: -16),
+            errorLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            errorLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16)
         ])
     }
     
@@ -188,8 +271,8 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.loginTextField.resignFirstResponder()
-        self.passwordTextField.resignFirstResponder()
+        loginTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
         return true
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, TapLikedDelegate {
     
     private lazy var profileHeaderView: ProfileHeaderView = {
         let view = ProfileHeaderView(frame: .zero)
@@ -61,8 +61,8 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var arrayOfposts: [Post] = []
     private let tapGestureRecognizer = UITapGestureRecognizer()
+    var liked: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +74,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        tableView.reloadData()
     }
     
     private func setupNavigationBar() {
@@ -121,27 +122,9 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    private func addPosts() {
-        self.arrayOfposts.append(.init(author: "Kitty One",
-                                       description: "Замуууурчательный день",
-                                       image: "kitty1",
-                                       likes: 11,
-                                       views: 400))
-        self.arrayOfposts.append(.init(author: "Kitty Two",
-                                       description: "Без кота и жизнь не та!",
-                                       image: "kitty2",
-                                       likes: 35,
-                                       views: 200))
-        self.arrayOfposts.append(.init(author: "Kitty Three",
-                                       description: "Сплю когда захочу =)",
-                                       image: "kitty3",
-                                       likes: 87,
-                                       views: 699))
-        self.arrayOfposts.append(.init(author: "The best little kitty ever... blablablabla",
-                                       description: "Быть котиком - классно!",
-                                       image: "kitty4",
-                                       likes: 37,
-                                       views: 4000))
+    func tapLikedLabel() {
+        liked.toggle()
+        self.tableView.reloadData()
     }
     
     private func setupGesture() {
@@ -189,17 +172,24 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosTableViewCell", for: indexPath)
+            cell.selectionStyle = .none
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else { let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 return cell
             }
-            let post = self.arrayOfposts[indexPath.row - 1]
-            let viewModel = PostTableViewCell.ViewModel(author: post.author,
-                                                        description: post.description,
-                                                        image: UIImage(named: post.image),
-                                                        likes: post.likes,
-                                                        views: post.views)
+            cell.likedDelegate = self
+            if liked {
+                arrayOfposts[indexPath.row - 1].likes += 1
+                liked.toggle()
+            }
+            let post = arrayOfposts[indexPath.row - 1]
+            let viewModel = Post(author: post.author,
+                                 description: post.description,
+                                 image: post.image,
+                                 likes: post.likes,
+                                 views: post.views,
+                                 id: post.id)
             cell.setup(with: viewModel)
             return cell
         }
@@ -214,6 +204,59 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             self.navigationController?.pushViewController(PhotosViewController(), animated: true)
+        }  else {
+            let viewController = OpenPostViewController()
+            viewController.selectedDataImage = arrayOfposts[indexPath.row - 1].image
+            viewController.selectedDataLikes = arrayOfposts[indexPath.row - 1].likes
+            viewController.selectedDataViews = arrayOfposts[indexPath.row - 1].views + 1
+            viewController.selectedDataAuthor = arrayOfposts[indexPath.row - 1].author
+            viewController.selectedDataDescription = arrayOfposts[indexPath.row - 1].description
+            viewController.selectedId = arrayOfposts[indexPath.row - 1].id
+            arrayOfposts[indexPath.row - 1].views += 1
+            self.tableView.reloadRows(at: [indexPath], with: .none)
+            navigationController?.pushViewController(viewController, animated: true)
         }
+    }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.row != 0 {
+            let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
+                (contextualAction, view, boolValue) in
+                arrayOfposts.remove(at: indexPath.row - 1)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
+            return swipeActions
+        }
+        else { return nil }
+    }
+}
+
+extension ProfileViewController {
+    
+    private func addPosts() {
+        arrayOfposts.append(.init(author: "Kitty One",
+                                  description: "Замуууурчательный день",
+                                  image: "kitty1",
+                                  likes: 11,
+                                  views: 400,
+                                  id: "1.1"))
+        arrayOfposts.append(.init(author: "Kitty Two",
+                                  description: "Без кота и жизнь не та!",
+                                  image: "kitty2",
+                                  likes: 35,
+                                  views: 200,
+                                  id: "1.2"))
+        arrayOfposts.append(.init(author: "Kitty Three",
+                                  description: "Сплю когда захочу =)",
+                                  image: "kitty3",
+                                  likes: 87,
+                                  views: 699,
+                                  id: "1.3"))
+        arrayOfposts.append(.init(author: "The best little kitty ever... blablablabla",
+                                  description: "Быть котиком - классно!",
+                                  image: "kitty4",
+                                  likes: 37,
+                                  views: 4000,
+                                  id: "1.4"))
     }
 }
