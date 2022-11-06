@@ -60,8 +60,7 @@ class ProfileViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-//    private var arrayOfposts: [Post] = []
+
     private let tapGestureRecognizer = UITapGestureRecognizer()
     
     override func viewDidLoad() {

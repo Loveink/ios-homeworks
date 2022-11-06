@@ -16,7 +16,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
             .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner
         ]
         view.translatesAutoresizingMaskIntoConstraints = false
-        
         return view
     }()
     
@@ -24,7 +23,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         let photoImagesToGallery = UIImageView()
         photoImagesToGallery.clipsToBounds = true
         photoImagesToGallery.translatesAutoresizingMaskIntoConstraints = false
-        
         return photoImagesToGallery
     }()
     

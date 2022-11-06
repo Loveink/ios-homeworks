@@ -31,12 +31,12 @@ class FeedViewController: UIViewController {
     }()
     private lazy var postButtonTwo: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(self.goToPost), for: .touchUpInside)
+        button.addTarget(self, action: #selector(self.goToprofile), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
         button.backgroundColor = .systemIndigo
         button.layer.cornerRadius = 12
-        button.setTitle("Go to post 2", for: .normal)
+        button.setTitle("Go to profile", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -65,5 +65,9 @@ class FeedViewController: UIViewController {
         let postViewController  = PostViewController()
         self.navigationController?.pushViewController(postViewController, animated: true)
         self.navigationItem.backButtonTitle = "Back"
+    }
+    @objc func goToprofile(sender:UIButton!)  {
+        let profileViewController = ProfileViewController()
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
